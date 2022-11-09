@@ -58,12 +58,12 @@ vet: ## Run go vet against code.
 GOLANGCI_LINT=$(shell which golangci-lint)
 golangci-lint:
 ifeq ($(GOLANGCI_LINT),)
-	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(shell go env GOPATH)/bin v1.49.0
+	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(shell go env GOPATH)/bin v1.50.1
 	$(info golangci-lint has been installed)
 endif
 	golangci-lint run --timeout 5m --go 1.19 ./...
 
-ENVTEST_K8S_VERSION ?= 1.24
+ENVTEST_K8S_VERSION ?= 1.25
 HAS_SETUP_ENVTEST := $(shell command -v setup-envtest;)
 
 testall: manifests generate fmt vet golangci-lint test ## Run tests.
@@ -73,7 +73,7 @@ test: envtest
 
 envtest:
 ifndef HAS_SETUP_ENVTEST
-	go install sigs.k8s.io/controller-runtime/tools/setup-envtest@3966c6775dfb86e6ce171c5673ae52c0724b2d9f # v0.12.1
+	go install sigs.k8s.io/controller-runtime/tools/setup-envtest@4b208abbf44562af057fafc512b4baff2c75c196 # v0.13.0
 	@echo "setup-envtest has been installed"
 endif
 	@echo "setup-envtest has already installed"
